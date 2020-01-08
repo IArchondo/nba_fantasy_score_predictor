@@ -1,4 +1,4 @@
-# nba_fantasy_score_predictor
+# NBA Fantasy Score Predictor 
 
 After winning my friends' fantasy league in the 2018-19 season, things did not 
 go so well in the season immediately after that. Currently I am out of the playoffs
