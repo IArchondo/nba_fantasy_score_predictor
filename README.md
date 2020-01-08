@@ -10,7 +10,8 @@ I have decided to create a tool that will be able to take any given fantasy matc
 and predict winning probabilities for each of the two teams. 
 
 In order to do that I will model a player's future performance based on their 
-past games, creating a performance distribution.
+past games, creating a performance distribution. Adding all these predictions,
+I will be able to simulate matchup outcomes and find an overall outcome distribution.
 
 With this project, I will try to enhance my knowledge of:
 - web scraping
