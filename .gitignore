@@ -1,2 +1,5 @@
 g1_data_gathering/__pycache__/DataFetcher.cpython-37.pyc
 ~$*
+g1_data_gathering/__pycache__/__init__.cpython-37.pyc
+g2_input_reader/__pycache__/__init__.cpython-37.pyc
+g2_input_reader/__pycache__/MatchupReader.cpython-37.pyc
