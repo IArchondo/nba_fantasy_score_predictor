@@ -143,7 +143,15 @@ class MatchupReader():
             
             return performance_df
 
-    def __process_team(self,team_sheet):
+    def __process_team_performances(self,team_sheet):
+        """Process a team
+        
+        Args:
+            team_sheet (pd.DataFrame): Team sheet
+        
+        Returns:
+            pd.DataFrame: Pandas dataframe with performances
+        """        
         performance_table = self.get_already_passed_games(team_sheet)
         performance_table = performance_table.rename(
             columns={'PLAYER_NAME':'Player'}
@@ -160,9 +168,13 @@ class MatchupReader():
 
         return team_sheet
 
+    def __calculate_fp(self,team_sheet):
+        #add required columns for calculation
+        team_sheet[]
+
     def process_game(self,game_dict):
         for key in game_dict.keys():
-            game_dict[key] = self.__process_team(
+            game_dict[key] = self.__process_team_performances(
                 game_dict[key]
             )
 
