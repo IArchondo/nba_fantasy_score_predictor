@@ -21,6 +21,8 @@ class DataFetcher:
             self.nba_players[i]["full_name"]: self.nba_players[i]["id"]
             for i in range(len(self.nba_players))
         }
+        self.nba_players_list = [self.nba_players[i]["full_name"]
+            for i in range(len(self.nba_players))]
 
     def __fetch_player_id(self, player_name):
         """Hidden method to fetch a given player's NBA API Id
@@ -30,9 +32,8 @@ class DataFetcher:
         """
         try:
             player_id = self.players_id_dict[player_name]
-        except KeyError as e:
-            logger.info("Player not found in database")
-            player_id = None
+        except KeyError:
+            raise Exception("Player not found in database")
         return player_id
 
     def __get_player_raw_gamelogs(self, player_name):
@@ -45,7 +46,7 @@ class DataFetcher:
             gamelog_df: pd.DataFrame
         """
         player_id = self.__fetch_player_id(player_name)
-        logger.info("Gathering player gamelogs...")
+        logger.info("Gathering gamelogs for player "+str(player_name)+"...")
         gamelog = playergamelog.PlayerGameLog(player_id=player_id)
 
         gamelog_df = gamelog.get_data_frames()[0]
@@ -203,34 +204,93 @@ class DataFetcher:
             pd.DataFrame: Dataframe with all needed stats
         """
         player_gamelog = self.get_player_clean_gamelog(player_name)
-        performance = player_gamelog.loc[
-            player_gamelog["GAME_NUMBER"] == game_number, :
-        ]
-        performance.loc[:, "PLAYER_NAME"] = player_name
 
-        performance = performance[
-            [
-                "PLAYER_NAME",
-                "GAME_NUMBER",
-                "GAME_DATE",
-                "MATCHUP",
-                "WL",
-                "MIN",
-                "FGM",
-                "FGA",
-                "FTM",
-                "FTA",
-                "OREB",
-                "REB",
-                "AST",
-                "STL",
-                "BLK",
-                "TOV",
-                "PTS",
-                "FP",
-                "FPPM",
+        if game_number in player_gamelog["GAME_NUMBER"]:
+            performance = player_gamelog.loc[
+                player_gamelog["GAME_NUMBER"] == game_number, :
             ]
-        ]
+            performance.loc[:, "PLAYER_NAME"] = player_name
+            performance.loc[:,"GAME_PLAYED"] = 1
+
+            performance = performance[
+                [
+                    "PLAYER_NAME",
+                    "GAME_NUMBER",
+                    "GAME_PLAYED",
+                    "GAME_DATE",
+                    "MATCHUP",
+                    "WL",
+                    "MIN",
+                    "FGM",
+                    "FGA",
+                    "FTM",
+                    "FTA",
+                    "OREB",
+                    "REB",
+                    "AST",
+                    "STL",
+                    "BLK",
+                    "TOV",
+                    "PTS",
+                    "FP",
+                    "FPPM",
+                ]
+            ]
+
+        else:
+            performance = player_gamelog.loc[
+                player_gamelog["GAME_NUMBER"] == 1, :
+            ]
+
+            performance.loc[:, "PLAYER_NAME"] = player_name
+            performance.loc[:,"GAME_PLAYED"] = 0
+            performance.loc[:,"GAME_NUMBER"] = game_number
+
+            performance = performance[
+                [
+                    "PLAYER_NAME",
+                    "GAME_NUMBER",
+                    "GAME_PLAYED",
+                    "GAME_DATE",
+                    "MATCHUP",
+                    "WL",
+                    "MIN",
+                    "FGM",
+                    "FGA",
+                    "FTM",
+                    "FTA",
+                    "OREB",
+                    "REB",
+                    "AST",
+                    "STL",
+                    "BLK",
+                    "TOV",
+                    "PTS",
+                    "FP",
+                    "FPPM",
+                ]
+            ]
+
+            performance.loc[:,
+            [
+                "GAME_DATE",
+                    "MATCHUP",
+                    "WL",
+                    "MIN",
+                    "FGM",
+                    "FGA",
+                    "FTM",
+                    "FTA",
+                    "OREB",
+                    "REB",
+                    "AST",
+                    "STL",
+                    "BLK",
+                    "TOV",
+                    "PTS",
+                    "FP",
+                    "FPPM"
+            ]] = np.nan
 
         return performance
 
