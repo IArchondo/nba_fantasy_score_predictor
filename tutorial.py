@@ -6,9 +6,9 @@ from g4_matchup_calculator.MatchupCalculator import MatchupCalculator
 
 logging.basicConfig(level=logging.INFO)
 
-# datafetch = DataFetcher()
+datafetch = DataFetcher()
 
-# datafetch.get_player_clean_gamelog("Steven Adams")
+player = datafetch.get_player_clean_gamelog("Christian Wood")
 
 #datafetch.get_player_performance("Nikola Jokic",60)
 
