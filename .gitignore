@@ -4,3 +4,4 @@ g1_data_gathering/__pycache__/__init__.cpython-37.pyc
 g2_input_reader/__pycache__/__init__.cpython-37.pyc
 g2_input_reader/__pycache__/MatchupReader.cpython-37.pyc
 tutorial.py
+g4_matchup_calculator/__pycache__/MatchupCalculator.cpython-37.pyc

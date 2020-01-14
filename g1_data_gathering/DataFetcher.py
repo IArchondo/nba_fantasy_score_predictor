@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import math
+
 from nba_api.stats.static import teams
 from nba_api.stats.static import players
 from nba_api.stats.endpoints import teamgamelog
@@ -57,6 +59,12 @@ class DataFetcher:
 
         gamelog_df.loc[:, "Team_ID"] = gamelog_df["Team"].apply(
             lambda x: teams.find_team_by_abbreviation(x)["id"]
+        )
+        # round minutes up (sports ws seems to do that)
+        #TODO minute comes already rounded up. Try to solve this, although
+        # it is probably very complicated
+        gamelog_df.loc[:,"MIN"] = gamelog_df["MIN"].apply(
+            lambda x:math.ceil(x)
         )
 
         gamelog_df = gamelog_df.drop(["Team", "PLUS_MINUS", "VIDEO_AVAILABLE"], axis=1)
