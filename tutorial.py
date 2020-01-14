@@ -19,3 +19,4 @@ out = matchupreader.read_given_excel("example_input.xlsx")
 matchupcalculator = MatchupCalculator(out)
 
 match = matchupcalculator.process_game(matchupcalculator.input_matchup)
+

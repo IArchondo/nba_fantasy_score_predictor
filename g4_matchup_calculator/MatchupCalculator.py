@@ -37,6 +37,25 @@ class MatchupCalculator():
         
         return performance_df
 
+    ## utils
+    def __group_player_double_position(self,x):
+        d = {}
+        d['Position'] = ''.join(x['Position'])
+        d['MIN'] = x['MIN'].max()
+        d['IM_G'] = x['IM_G'].max()
+        d['IM_F'] = x['IM_F'].max()
+        d['IM_C'] = x['IM_C'].max()
+        d['UM_G'] = x['UM_G'].sum()
+        d['UM_F'] = x['UM_F'].sum()
+        d['UM_C'] = x['UM_C'].sum()
+        d['RM_G'] = x['RM_G'].min()
+        d['RM_F'] = x['RM_F'].min()
+        d['RM_C'] = x['RM_C'].min()
+        d['UM'] = x['UM'].sum()
+        d['FPU'] = x['FPU'].sum()
+
+        return pd.Series(d,index=d.keys())
+
     def __process_team_performances(self,team_sheet):
         """Process a team
         
@@ -139,7 +158,16 @@ class MatchupCalculator():
 
         team_sheet.loc[:,'FPU'] = team_sheet.loc[:,'FPU'].apply(lambda x:self.__round_fp(x))
 
-        return team_sheet
+        #group players with double positions
+        cols_to_group = ['Player','Game','Order','FP','FPPM']
+
+        grouped = team_sheet.groupby(cols_to_group).apply(self.__group_player_double_position).reset_index()
+
+        grouped = grouped.sort_values('Order').reset_index(drop=True)
+
+        grouped = grouped.loc[:,[col for col in team_sheet.columns if col!="Sec_order"]]
+
+        return grouped
 
     def __determine_winner(self,game_dict):
         """Determine winner of an already filled game_dict
