@@ -20,12 +20,8 @@ logging.basicConfig(level=logging.INFO)
 
 matchupreader = MatchupReader()
 
-out = matchupreader.read_given_excel("example_input_2.xlsx")
+out = matchupreader.read_given_excel("example_input.xlsx")
 
 matchupcalculator = MatchupCalculator(out)
 
-output = matchupcalculator.generate_forecasts(out,1000)
-
-logging.info("Hola"+str(100)+"% porciento")
-
-
+output = matchupcalculator.generate_forecasts(out,10)
