@@ -19,4 +19,3 @@ With this project, I will try to enhance my knowledge of:
 - modeling past behavior
 - Probability distribution
 - Simulation
-- Poisson
