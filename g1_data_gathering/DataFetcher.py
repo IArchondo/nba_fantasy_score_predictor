@@ -81,7 +81,7 @@ class DataFetcher:
             pd.DataFrame: Team's gamelog and game number
         """
         team_gamelog = teamgamelog.TeamGameLog(team_id=team_id)
-        logger.info("Getting teams gamelogs")
+        logger.debug("Getting teams gamelogs")
         team_gamelog = team_gamelog.get_data_frames()[0]
 
         team_gamelog["GAME_DATE"] = pd.to_datetime(team_gamelog["GAME_DATE"])
@@ -209,7 +209,7 @@ class DataFetcher:
             game_number (int): Game number
 
         Returns:
-            pd.DataFrame: Dataframe with all needed stats
+            dict: Dict with player performance and total player gamelog
         """
         player_gamelog = self.get_player_clean_gamelog(player_name)
 
@@ -300,5 +300,8 @@ class DataFetcher:
                     "FPPM"
             ]] = np.nan
 
-        return performance
+        output_dict = {"performance":performance,
+            "player_gamelog":player_gamelog}
+
+        return output_dict
 

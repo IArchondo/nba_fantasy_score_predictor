@@ -88,7 +88,7 @@ class PerformanceModeler():
             logger.debug("Running simulations for the given player")
             rng = np.random.default_rng()
 
-            simulation = rng.multinomial(1, probabilities, size=100)
+            simulation = rng.multinomial(1, probabilities, size=number_of_simulations)
 
             outcomes = [
                 self.possible_fppm[np.where(simulation[key] == True)[0][0]].sum()
@@ -151,7 +151,7 @@ class PerformanceModeler():
         Returns:
             dict: Dict with both forecasts
         """        
-        logger.info("Determining forecast for given player...")
+        logger.debug("Determining forecast for given player...")
 
         fppm_forecast = self.determine_fppm_forecast(player_gamelog,number_of_simulations)
         minute_forecast = self.determine_minute_forecast(player_gamelog)
@@ -159,7 +159,7 @@ class PerformanceModeler():
         output_dict = {"fppm_forecast":fppm_forecast,
             "minute_forecast":minute_forecast}
 
-        logger.info("Done")
+        logger.debug("Done")
 
         return output_dict
 

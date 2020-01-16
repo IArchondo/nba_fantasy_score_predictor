@@ -7,21 +7,25 @@ from g4_matchup_calculator.MatchupCalculator import MatchupCalculator
 
 logging.basicConfig(level=logging.INFO)
 
-datafetch = DataFetcher()
+# datafetch = DataFetcher()
 
-player = datafetch.get_player_clean_gamelog("Fred VanVleet")
+# player = datafetch.get_player_clean_gamelog("Fred VanVleet")
 
-performance_modeler = PerformanceModeler()
+# performance_modeler = PerformanceModeler()
 
-performance_forecasts = performance_modeler.determine_forecast(player)
+# performance_forecasts = performance_modeler.determine_forecast(player)
 
-# datafetch.get_player_performance("Nikola Jokic",60)
+# out = datafetch.get_player_performance("Nikola Jokic",60)
+
 
 matchupreader = MatchupReader()
 
-out = matchupreader.read_given_excel("example_input.xlsx")
+out = matchupreader.read_given_excel("example_input_2.xlsx")
 
 matchupcalculator = MatchupCalculator(out)
 
-match = matchupcalculator.process_game(matchupcalculator.input_matchup)
+output = matchupcalculator.generate_forecasts(out,1000)
+
+logging.info("Hola"+str(100)+"% porciento")
+
 
